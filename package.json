@@ -8,5 +8,8 @@
   },
   "author": "Anthro Indonesia",
   "license": "MIT",
-  "packageManager": "pnpm@10.26.2"
+  "dependencies": {
+    "@upstash/redis": "^1.36.0",
+    "ultimate-express": "^2.0.14"
+  }
 }
