@@ -1,0 +1,12 @@
+{
+  "name": "link.anthro.id",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Anthro Indonesia",
+  "license": "MIT",
+  "packageManager": "pnpm@10.26.2"
+}
