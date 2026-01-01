@@ -1,4 +1,4 @@
-import { isProductionWithoutEnv } from "../util";
+import { isProductionWithoutEnv } from "../util.js";
 
 // ".env" file must exists, otherwise it'll throw an error
 if (!isProductionWithoutEnv()) {
