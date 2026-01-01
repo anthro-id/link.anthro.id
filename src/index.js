@@ -30,6 +30,7 @@ app.use((req, res, next) => {
     };
   };
 
+  res.setHeader("X-Powered-By", `link.anthro.id (Build ${pkg.version})`);
 
   next();
 });
