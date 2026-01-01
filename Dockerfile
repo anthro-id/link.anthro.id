@@ -1,4 +1,5 @@
-FROM node:lts-alpine AS base
+FROM node:24-trixie-slim AS base
+
 
 COPY package.json ./
 COPY src ./src
