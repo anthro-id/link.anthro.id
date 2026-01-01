@@ -29,6 +29,9 @@ console.log(response); // https://link.anthro.id/...
 - Treat `REQUEST_KEY` like a password. Generate a strong one.
   - You can use [`crypto.randomBytes`](https://nodejs.org/api/crypto.html#cryptorandombytessize-callback) to generate a random key.
   - 32 bytes or more is recommended. Use `base64` or `base64url` encoding type as an output.
+- The link shortener has rate limiting.
+  - Currently, the `POST` route rate limit is set to 2 submissions per 5 minutes, and the other `GET` routes are set to 5 requests per minute.
+  - You can adjust this on your own.
 
 ## Instructions
 - Fork or download the repository.

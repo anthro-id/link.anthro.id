@@ -5,17 +5,19 @@ const PORT = process.env.PORT || 3000;
 import pkg from "../package.json" with { type: "json" };
 import { randomBytes } from "node:crypto";
 import Express from "ultimate-express";
+import ratelimiter from "express-rate-limit";
+import ms from "ms";
 import isBase64 from "validator/lib/isBase64.js";
 import isURL from "validator/lib/isURL.js";
 
 import redis, { kvKey } from "./services/redis.js";
-import { limit, cacheControlDefaultValue, randomBytesLength, cachedUrls } from "./config.js";
+import { limit, cacheControlDefaultValue, randomBytesLength, cachedUrls, ratelimitConfig } from "./config.js";
 
 const app = Express();
 
 const initialAuthKey = process.env.REQUEST_KEY;
 
-app.use((req, res, next) => {
+app.use(ratelimiter({ ...ratelimitConfig, identifier: "main", limit: 5, windowMs: ms("1m") }), (req, res, next) => {
   if (req.method !== "GET" && req.method !== "HEAD") {
     if (typeof initialAuthKey === "string" && initialAuthKey.length > 0) {
       const header = req.get("Authorization");
@@ -61,7 +63,7 @@ app.get(["/", "/:identifier"], Express.raw({ limit: 0 }), async (req, res) => {
   return res.setHeader("Cache-Control", cacheControlDefaultValue).redirect(302, url);
 });
 
-app.post("/", Express.text({ limit: limit.rawUrl, type: "text/plain" }), async (req, res) => {
+app.post("/", ratelimiter({ ...ratelimitConfig, identifier: "post", limit: 2, windowMs: ms("5m") }), Express.text({ limit: limit.rawUrl, type: "text/plain" }), async (req, res) => {
   const rawUrl = req.body;
   if (!rawUrl || typeof rawUrl !== "string" || !isURL(rawUrl, { protocols: ["https"], max_allowed_length: limit.rawUrl })) {
     return res.status(400).send("Invalid or malformed input URL.");

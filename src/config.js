@@ -12,3 +12,11 @@ export const cacheControlDefaultValue = [
 ].toString(", ");
 
 export const cachedUrls = new Map();
+
+/**
+ * @type {Partial<import("express-rate-limit").Options>}
+ */
+export const ratelimitConfig = {
+  standardHeaders: "draft-8",
+  legacyHeaders: false
+};
