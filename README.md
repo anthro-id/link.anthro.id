@@ -5,7 +5,7 @@ A link shortener (for internal use only), built with [µExpress](https://npm.im/
 We use the [latest version](https://nodejs.org/en/about/previous-releases#looking-for-the-latest-release-of-a-version-branch) (Active LTS) of [Node.js](https://nodejs.org). The code is built on [ECMAScript](https://nodejs.org/api/esm.html).
 
 ## Structures
-We use [`base64url`](https://en.wikipedia.org/wiki/Base64#Alphabet:~:text=Note%20that-,Base64URL,-encoding%20replaces%20%27%2B%27%20with) encoding with 6 characters for each new URL, so that gave us for at least [68,7 billions](https://google.com/search?q=64+%5E+6) of unique URLs, which is more than enough.
+We use [`base64url`](https://en.wikipedia.org/wiki/Base64#Alphabet:~:text=Note%20that-,Base64URL,-encoding%20replaces%20%27%2B%27%20with) encoding with 6 characters for each new URL, which gives us at least [68.7 billion](https://google.com/search?q=64+%5E+6) unique URLs, which is more than enough.
 
 ## Shorten the URL
 Simply sending a `POST` request with a raw URL in the request body and set the `Content-Type` header to `text/plain`.
