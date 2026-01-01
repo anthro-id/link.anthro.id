@@ -7,4 +7,4 @@ RUN corepack enable && \
   corepack prepare pnpm@latest --activate && \
   pnpm install --frozen-lockfile
 
-CMD ["pnpm", "start"]
+CMD ["pnpm", "start:no-env"]

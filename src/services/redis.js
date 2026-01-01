@@ -1,5 +1,9 @@
+import { isProductionWithoutEnv } from "../util";
+
 // ".env" file must exists, otherwise it'll throw an error
-process.loadEnvFile(); 
+if (!isProductionWithoutEnv()) {
+  process.loadEnvFile();
+};
 
 import { Redis } from "@upstash/redis";
 

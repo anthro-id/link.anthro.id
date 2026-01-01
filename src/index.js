@@ -1,4 +1,5 @@
-process.env.NODE_ENV = process.env.npm_lifecycle_event === "start" ? "production" : "development";
+import { isProduction } from "./util.js";
+process.env.NODE_ENV = isProduction() ? "production" : "development";
 
 const PORT = process.env.PORT || 3000;
 
