@@ -13,6 +13,27 @@ import { limit, cacheControlDefaultValue, randomBytesLength, cachedUrls } from "
 
 const app = Express();
 
+const initialAuthKey = process.env.REQUEST_KEY;
+
+app.use((req, res, next) => {
+  if (req.method !== "GET" && req.method !== "HEAD") {
+    if (typeof initialAuthKey === "string" && initialAuthKey.length > 0) {
+      const header = req.get("Authorization");
+      if (!header || typeof header !== "string" || header.length <= 0) {
+        return res.status(401).send("Authorization required.");
+      };
+
+      const [scheme, key] = header.split(" ");
+      if (!scheme.startsWith("Bearer") || key !== initialAuthKey) {
+        return res.sendStatus(401);
+      };
+    };
+  };
+
+
+  next();
+});
+
 app.get("/ping", (_, res) => res.sendStatus(204));
 
 app.get(["/", "/:identifier"], Express.raw({ limit: 0 }), async (req, res) => {
