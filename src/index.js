@@ -14,8 +14,8 @@ import ms from "ms";
 import isBase64 from "validator/lib/isBase64.js";
 import isURL from "validator/lib/isURL.js";
 
-import redis, { kvKey } from "./services/redis.js";
-import { limit, cacheControlDefaultValue, randomBytesLength, cachedUrls, ratelimitConfig } from "./config.js";
+import redis from "./services/redis.js";
+import { limit, cacheKey, cacheControlDefaultValue, randomBytesLength, cachedUrls, ratelimitConfig } from "./config.js";
 
 const app = Express();
 
@@ -57,7 +57,7 @@ app.get(["/", "/:identifier"], Express.raw({ limit: 0 }), async (req, res) => {
     return res.setHeader("Cache-Control", cacheControlDefaultValue).redirect(302, cachedUrls.get(identifier));
   };
 
-  const url = await redis.hget(kvKey, identifier);
+  const url = await redis.hget(cacheKey, identifier);
   if (!url || typeof url !== "string" || !isURL(url, { protocols: ["https"] })) {
     return res.status(400).send("Malformed destination URL.");
   };
@@ -76,7 +76,7 @@ app.post("/", ratelimiter({ ...ratelimitConfig, identifier: "post", limit: 2, wi
   try {
     const newIdentifier = randomBytes(randomBytesLength).toString("base64url");
 
-    await redis.hset(kvKey, {
+    await redis.hset(cacheKey, {
       [newIdentifier]: rawUrl
     });
 

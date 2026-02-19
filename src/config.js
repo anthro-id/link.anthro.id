@@ -2,6 +2,8 @@ import ms from "ms";
 
 export const randomBytesLength = 4;
 
+export const cacheKey = "links";
+
 export const limit = {
   identifier: 6,
   rawUrl: 2048
