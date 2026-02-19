@@ -25,6 +25,14 @@ const response = await request.text();
 console.log(response); // https://link.anthro.id/...
 ```
 
+## Add Expiration
+If you want the URL to be expired at certain amount of time, you can append `?ttl={SECONDS}` to the URL.
+
+The time limit is flexible, our approach values are in between 30 seconds and a year.
+```js
+const request = fetch("https://link.anthro.id?ttl=67", { ... });
+```
+
 ## Best Practices
 - Treat `REQUEST_KEY` like a password. Generate a strong one.
   - You can use [`crypto.randomBytes`](https://nodejs.org/api/crypto.html#cryptorandombytessize-callback) to generate a random key.
