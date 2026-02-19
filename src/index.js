@@ -1,4 +1,4 @@
-import { isProduction } from "./util.js";
+import { isProduction, generateCacheControlHeader } from "./util.js";
 process.env.NODE_ENV = isProduction() ? "production" : "development";
 
 const PORT = +(process.env.PORT || 3000);
@@ -15,7 +15,7 @@ import isBase64 from "validator/lib/isBase64.js";
 import isURL from "validator/lib/isURL.js";
 
 import redis from "./services/redis.js";
-import { limit, cacheKey, cacheControlDefaultValue, randomBytesLength, cachedUrls, ratelimitConfig } from "./config.js";
+import { limit, cacheKey, randomBytesLength, ratelimitConfig } from "./config.js";
 
 const app = Express();
 const { raw, text } = Express;
@@ -62,18 +62,16 @@ app.get(["/", "/:identifier"], raw({ limit: 0 }), async (req, res) => {
     return res.redirect(pkg.repository.url);
   };
 
-  if (cachedUrls.has(identifier)) {
-    return res.setHeader("Cache-Control", cacheControlDefaultValue).redirect(302, cachedUrls.get(identifier));
-  };
+  const [url, ttl] = await redis.multi()
+    .hget(cacheKey, identifier)
+    .httl(cacheKey, identifier)
+    .exec();
 
-  const url = await redis.hget(cacheKey, identifier);
   if (!url || typeof url !== "string" || !isURL(url, { protocols: ["https"] })) {
     return res.status(400).send("Malformed destination URL.");
   };
 
-  cachedUrls.set(identifier, url);
-
-  return res.setHeader("Cache-Control", cacheControlDefaultValue).redirect(302, url);
+  return res.setHeader("Cache-Control", generateCacheControlHeader(ttl[0])).redirect(302, url);
 });
 
 app.post("/", ratelimiter({ ...ratelimitConfig, identifier: "post", limit: 2, windowMs: ms("5m") }), text({ limit: limit.rawUrl, type: "text/plain" }), async (req, res) => {
@@ -82,14 +80,48 @@ app.post("/", ratelimiter({ ...ratelimitConfig, identifier: "post", limit: 2, wi
     return res.status(400).send("Invalid or malformed input URL.");
   };
 
-  try {
-    const newIdentifier = randomBytes(randomBytesLength).toString("base64url");
+  const ttl = typeof req.query.ttl === "string" ? +req.query.ttl : null;
+  if (ttl !== null) {
+    if (isNaN(ttl)) {
+      return res.status(400).send("The \"ttl\" value must be a number.");
+    };
 
-    await redis.hset(cacheKey, {
+    if (ttl < 30 || ttl > 3.156e+7) {
+      return res.status(400).send("The \"ttl\" value must be in between 30 seconds and a year (31,536,000 seconds).");
+    };
+  };
+
+  try {
+    let newIdentifier;
+
+    let retries = 0;
+    while (retries < 3) {
+      newIdentifier = randomBytes(randomBytesLength).toString("base64url");
+
+      const isExists = await redis.hexists(cacheKey, newIdentifier);
+      if (isExists !== 0) {
+        retries++;
+        continue;
+      };
+
+      break;
+    };
+
+    if (!newIdentifier || retries >= 3) {
+      return res.status(500).send("The identifier resource generation is exhausted, try again later.");
+    };
+
+    const transactions = redis.multi();
+
+    transactions.hset(cacheKey, {
       [newIdentifier]: rawUrl
     });
 
-    cachedUrls.set(newIdentifier, rawUrl);
+    if (ttl !== null) {
+      transactions.hexpire(cacheKey, newIdentifier, ttl);
+    };
+
+    await transactions.exec();
 
     return res.status(201).send("https://link.anthro.id/" + newIdentifier);
   } catch (error) {
@@ -103,10 +135,6 @@ app.delete("/:identifier", ratelimiter({ ...ratelimitConfig, identifier: "delete
   const deletion = await redis.hdel(cacheKey, identifier);
   if (deletion <= 0) {
     return res.status(404).send("The URL with specified identifier does not exist.");
-  };
-
-  if (cachedUrls.has(identifier)) {
-    cachedUrls.delete(identifier);
   };
 
   return res.sendStatus(204);
