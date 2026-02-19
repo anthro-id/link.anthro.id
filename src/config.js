@@ -9,7 +9,7 @@ export const limit = {
 
 export const cacheControlDefaultValue = [
   "public", `max-age=${ms("7d")}`, "immutable"
-].toString(", ");
+].join(", ");
 
 export const cachedUrls = new Map();
 
