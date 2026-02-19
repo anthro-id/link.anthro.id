@@ -20,6 +20,8 @@ import { limit, cacheKey, randomBytesLength, ratelimitConfig } from "./config.js
 const app = Express();
 const { raw, text } = Express;
 
+app.set("trust proxy", true);
+
 const initialAuthKey = process.env.REQUEST_KEY;
 
 app.use(ratelimiter({ ...ratelimitConfig, identifier: "main", limit: 5, windowMs: ms("1m") }), (req, res, next) => {
