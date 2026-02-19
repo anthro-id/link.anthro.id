@@ -41,16 +41,24 @@ app.use(ratelimiter({ ...ratelimitConfig, identifier: "main", limit: 5, windowMs
   next();
 });
 
-app.get("/ping", (_, res) => res.sendStatus(204));
-
-app.get(["/", "/:identifier"], Express.raw({ limit: 0 }), async (req, res) => {
-  const identifier = req.params.identifier;
-  if (!identifier || typeof identifier !== "string" || identifier.length <= 0) {
-    return res.redirect(pkg.repository.url);
+app.param("identifier", (req, res, next, identifier) => {
+  if (req.method !== "GET" && (!identifier || typeof identifier !== "string" || identifier.length <= 0)) {
+    return res.status(400).send("Invalid URL identifier.");
   };
 
   if (identifier.length !== limit.identifier || !isBase64(identifier, { urlSafe: true })) {
-    return res.sendStatus(400);
+    return res.status(400).send("The identifier contains invalid format.");
+  };
+
+  return next();
+});
+
+app.get("/ping", (_, res) => res.sendStatus(204));
+
+app.get(["/", "/:identifier"], Express.raw({ limit: 0 }), async (req, res) => {
+  const { identifier } = req.params || {};
+  if (!identifier || typeof identifier !== "string" || identifier.length <= 0) {
+    return res.redirect(pkg.repository.url);
   };
 
   if (cachedUrls.has(identifier)) {
