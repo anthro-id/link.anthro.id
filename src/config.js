@@ -8,11 +8,6 @@ export const limit = {
 };
 
 /**
- * @type { Map<string, { url: string, ttl?: number }> }
- */
-export const cachedUrls = new Map();
-
-/**
  * @type {Partial<import("express-rate-limit").Options>}
  */
 export const ratelimitConfig = {
