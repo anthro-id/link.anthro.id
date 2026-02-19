@@ -1,6 +1,6 @@
 FROM node:24-trixie-slim AS base
 
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml jsconfig.json ./
 COPY src ./src
 
 RUN corepack enable && \
