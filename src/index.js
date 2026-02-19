@@ -1,7 +1,10 @@
 import { isProduction } from "./util.js";
 process.env.NODE_ENV = isProduction() ? "production" : "development";
 
-const PORT = process.env.PORT || 3000;
+const PORT = +(process.env.PORT || 3000);
+if (isNaN(PORT)) {
+  throw new Error("PORT contains invalid value.");
+};
 
 import pkg from "../package.json" with { type: "json" };
 import { randomBytes } from "node:crypto";
