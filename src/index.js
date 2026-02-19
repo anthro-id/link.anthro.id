@@ -97,6 +97,20 @@ app.post("/", ratelimiter({ ...ratelimitConfig, identifier: "post", limit: 2, wi
   };
 });
 
+app.delete("/:identifier", ratelimiter({ ...ratelimitConfig, identifier: "delete", limit: 3, windowMs: ms("1m") }), Express.raw({ limit: 0 }), async (req, res) => {
+  const { identifier } = req.params;
+  const deletion = await redis.hdel(cacheKey, identifier);
+  if (deletion <= 0) {
+    return res.status(404).send("The URL with specified identifier does not exist.");
+  };
+
+  if (cachedUrls.has(identifier)) {
+    cachedUrls.delete(identifier);
+  };
+
+  return res.sendStatus(204);
+});
+
 app.listen(PORT, () => {
   return console.log(`Server listened to PORT ${PORT}`);
 });
