@@ -1,5 +1,3 @@
-import ms from "ms";
-
 export const randomBytesLength = 4;
 
 export const cacheKey = "links";
@@ -9,10 +7,9 @@ export const limit = {
   rawUrl: 2048
 };
 
-export const cacheControlDefaultValue = [
-  "public", `max-age=${ms("7d")}`, "immutable"
-].join(", ");
-
+/**
+ * @type { Map<string, { url: string, ttl?: number }> }
+ */
 export const cachedUrls = new Map();
 
 /**
