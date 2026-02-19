@@ -18,6 +18,7 @@ import redis from "./services/redis.js";
 import { limit, cacheKey, cacheControlDefaultValue, randomBytesLength, cachedUrls, ratelimitConfig } from "./config.js";
 
 const app = Express();
+const { raw, text } = Express;
 
 const initialAuthKey = process.env.REQUEST_KEY;
 
@@ -55,7 +56,7 @@ app.param("identifier", (req, res, next, identifier) => {
 
 app.get("/ping", (_, res) => res.sendStatus(204));
 
-app.get(["/", "/:identifier"], Express.raw({ limit: 0 }), async (req, res) => {
+app.get(["/", "/:identifier"], raw({ limit: 0 }), async (req, res) => {
   const { identifier } = req.params || {};
   if (!identifier || typeof identifier !== "string" || identifier.length <= 0) {
     return res.redirect(pkg.repository.url);
@@ -75,7 +76,7 @@ app.get(["/", "/:identifier"], Express.raw({ limit: 0 }), async (req, res) => {
   return res.setHeader("Cache-Control", cacheControlDefaultValue).redirect(302, url);
 });
 
-app.post("/", ratelimiter({ ...ratelimitConfig, identifier: "post", limit: 2, windowMs: ms("5m") }), Express.text({ limit: limit.rawUrl, type: "text/plain" }), async (req, res) => {
+app.post("/", ratelimiter({ ...ratelimitConfig, identifier: "post", limit: 2, windowMs: ms("5m") }), text({ limit: limit.rawUrl, type: "text/plain" }), async (req, res) => {
   const rawUrl = req.body;
   if (!rawUrl || typeof rawUrl !== "string" || !isURL(rawUrl, { protocols: ["https"], max_allowed_length: limit.rawUrl })) {
     return res.status(400).send("Invalid or malformed input URL.");
@@ -97,7 +98,7 @@ app.post("/", ratelimiter({ ...ratelimitConfig, identifier: "post", limit: 2, wi
   };
 });
 
-app.delete("/:identifier", ratelimiter({ ...ratelimitConfig, identifier: "delete", limit: 3, windowMs: ms("1m") }), Express.raw({ limit: 0 }), async (req, res) => {
+app.delete("/:identifier", ratelimiter({ ...ratelimitConfig, identifier: "delete", limit: 3, windowMs: ms("1m") }), raw({ limit: 0 }), async (req, res) => {
   const { identifier } = req.params;
   const deletion = await redis.hdel(cacheKey, identifier);
   if (deletion <= 0) {
