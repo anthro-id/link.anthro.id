@@ -1,0 +1,14 @@
+{
+  "exclude": ["node_modules"],
+  "include": ["src/**/*.js"],
+  "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "strictNullChecks": true,
+    "strict": true,
+    "checkJs": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "resolveJsonModule": true
+  }
+}
