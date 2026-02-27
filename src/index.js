@@ -1,5 +1,7 @@
-import { isProduction, generateCacheControlHeader } from "./util.js";
-process.env.NODE_ENV = isProduction() ? "production" : "development";
+import { isProduction as _isProduction, generateCacheControlHeader } from "./util.js";
+
+const isProduction = _isProduction();
+process.env.NODE_ENV = isProduction ? "production" : "development";
 
 const PORT = +(process.env.PORT || 3000);
 if (isNaN(PORT)) {
@@ -20,7 +22,9 @@ import { limit, cacheKey, randomBytesLength, ratelimitConfig } from "./config.js
 const app = Express();
 const { raw, text } = Express;
 
-app.set("trust proxy", true);
+if (isProduction) {
+  app.set("trust proxy", true);
+};
 
 const initialAuthKey = process.env.REQUEST_KEY;
 
