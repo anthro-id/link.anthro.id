@@ -77,7 +77,9 @@ app.get(["/", "/:identifier"], raw({ limit: 0 }), async (req, res) => {
     return res.status(400).send("Malformed destination URL.");
   };
 
-  return res.setHeader("Cache-Control", generateCacheControlHeader(ttl[0])).redirect(302, url);
+  const ttlValue = ttl[0];
+
+  return res.setHeader("Cache-Control", generateCacheControlHeader((!ttlValue || ttlValue <= 0) ? undefined : ttlValue)).redirect(302, url);
 });
 
 app.post("/", ratelimiter({ ...ratelimitConfig, identifier: "post", limit: 2, windowMs: ms("5m") }), text({ limit: limit.rawUrl, type: "text/plain" }), async (req, res) => {
