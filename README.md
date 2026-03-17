@@ -12,7 +12,7 @@ Simply sending a `POST` request with a raw URL in the request body and set the `
 ```js
 const endpoint = "https://link.anthro.id"; // or your own endpoint
 const body = "https://youtube.com/watch/QuvqzlxEO6g";
-const authKey = "SMK62TXtlbE8E4IW2zxcXsRzdzVv6xwGUB3She07lp8=";
+const authKey = "your-random-secret-key-here";
 const request = await fetch(endpoint, {
   method: "POST", body,
   headers: {
