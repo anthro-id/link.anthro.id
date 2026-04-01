@@ -13,6 +13,7 @@ import { randomBytes } from "node:crypto";
 import Express from "ultimate-express";
 import ratelimiter from "express-rate-limit";
 import ms from "ms";
+import cors from "cors";
 import isBase64 from "validator/lib/isBase64.js";
 import isURL from "validator/lib/isURL.js";
 
@@ -47,6 +48,11 @@ app.use(ratelimiter({ ...ratelimitConfig, identifier: "main", limit: 5, windowMs
 
   next();
 });
+
+app.use(cors({
+  methods: ["PUT", "POST", "PATCH", "DELETE"],
+  origin: "https://anthro.id"
+}));
 
 app.param("identifier", (req, res, next, identifier) => {
   if (req.method !== "GET" && (!identifier || typeof identifier !== "string" || identifier.length <= 0)) {
