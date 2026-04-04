@@ -4,7 +4,10 @@ export const cacheKey = "links";
 
 export const limit = {
   identifier: 6,
-  rawUrl: 2048
+  rawUrl: 2048,
+
+  minTtl: 30,
+  maxTtl: 3.156e+7
 };
 
 /**

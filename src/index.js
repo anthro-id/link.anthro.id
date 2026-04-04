@@ -100,7 +100,7 @@ app.post("/", ratelimiter({ ...ratelimitConfig, identifier: "post", limit: 15, w
       return res.status(400).send("The \"ttl\" value must be a number.");
     };
 
-    if (ttl < 30 || ttl > 3.156e+7) {
+    if (ttl < limit.minTtl || ttl > limit.maxTtl) {
       return res.status(400).send("The \"ttl\" value must be in between 30 seconds and a year (31,536,000 seconds).");
     };
   };
