@@ -79,7 +79,11 @@ app.get(["/", "/:identifier"], raw({ limit: 0 }), async (req, res) => {
     .httl(cacheKey, identifier)
     .exec();
 
-  if (!url || typeof url !== "string" || !isURL(url, { protocols: ["https"] })) {
+  if (!url || typeof url !== "string") {
+    return res.sendStatus(404);
+  };
+
+  if (!isURL(url, { protocols: ["https"] })) {
     return res.status(400).send("Malformed destination URL.");
   };
 
