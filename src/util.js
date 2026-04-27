@@ -1,4 +1,7 @@
 import ms from "ms";
+import { randomBytes } from "node:crypto";
+
+import { randomBytesLength } from "./config";
 
 const command = process.env.npm_lifecycle_event;
 
@@ -12,4 +15,8 @@ export function isProductionWithoutEnv() {
 
 export function generateCacheControlHeader(ttl = Math.floor(ms("7d") / 1000)) {
   return ["public", `max-age=${ttl}`, "immutable"].join(", ");
+};
+
+export function generateUniqueCode() {
+  return randomBytes(randomBytesLength).toString("base64url");
 };

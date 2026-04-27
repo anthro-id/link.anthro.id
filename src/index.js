@@ -1,4 +1,4 @@
-import { isProduction as _isProduction, generateCacheControlHeader } from "./util.js";
+import { isProduction as _isProduction, generateCacheControlHeader, generateUniqueCode } from "./util.js";
 
 const isProduction = _isProduction();
 process.env.NODE_ENV = isProduction ? "production" : "development";
@@ -9,7 +9,6 @@ if (isNaN(PORT)) {
 };
 
 import pkg from "../package.json" with { type: "json" };
-import { randomBytes } from "node:crypto";
 import Express from "ultimate-express";
 import ratelimiter from "express-rate-limit";
 import ms from "ms";
@@ -18,7 +17,7 @@ import isBase64 from "validator/lib/isBase64.js";
 import isURL from "validator/lib/isURL.js";
 
 import redis from "./services/redis.js";
-import { limit, cacheKey, randomBytesLength, ratelimitConfig } from "./config.js";
+import { limit, cacheKey, ratelimitConfig } from "./config.js";
 
 const app = Express();
 const { raw, text } = Express;
@@ -114,7 +113,7 @@ app.post("/", ratelimiter({ ...ratelimitConfig, identifier: "post", limit: 15, w
 
     let retries = 0;
     while (retries < 3) {
-      newIdentifier = randomBytes(randomBytesLength).toString("base64url");
+      newIdentifier = generateUniqueCode();
 
       const isExists = await redis.hexists(cacheKey, newIdentifier);
       if (isExists !== 0) {
