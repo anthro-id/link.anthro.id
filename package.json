@@ -22,11 +22,11 @@
     "node": ">=24"
   },
   "dependencies": {
-    "@upstash/redis": "^1.37.0",
+    "@upstash/redis": "^1.38.0",
     "cors": "^2.8.6",
-    "express-rate-limit": "^8.4.1",
+    "express-rate-limit": "^8.5.2",
     "ms": "^2.1.3",
-    "ultimate-express": "^2.1.0",
+    "ultimate-express": "^2.1.1",
     "validator": "^13.15.35"
   }
 }
