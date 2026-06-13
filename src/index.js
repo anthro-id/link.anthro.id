@@ -1,4 +1,5 @@
-import { isProduction as _isProduction, generateCacheControlHeader, generateUniqueCode } from "./util.js";
+import { generateCacheControlHeader, generateUniqueCode } from "./util.js";
+import { isProduction as _isProduction } from "./internal.js";
 
 const isProduction = _isProduction();
 process.env.NODE_ENV = isProduction ? "production" : "development";
