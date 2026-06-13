@@ -1,10 +1,17 @@
-FROM node:24-trixie-slim AS base
+# build
+FROM node:24-alpine AS base
 
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml jsconfig.json ./
+COPY package.json jsconfig.json ./
 COPY src ./src
 
-RUN corepack enable && \
-  corepack prepare pnpm@latest --activate && \
-  pnpm install --frozen-lockfile
+RUN npm install
+
+# production
+FROM gcr.io/distroless/nodejs24-debian13
+
+WORKDIR /app
+
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app ./
 
 CMD ["pnpm", "start:no-env"]
