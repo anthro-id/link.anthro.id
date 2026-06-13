@@ -17,18 +17,22 @@ importers:
       cors:
         specifier: ^2.8.6
         version: 2.8.6
+      express:
+        specifier: ^5.2.1
+        version: 5.2.1
       express-rate-limit:
         specifier: ^8.5.2
         version: 8.5.2(express@5.2.1)
       ms:
         specifier: ^2.1.3
         version: 2.1.3
-      ultimate-express:
-        specifier: ^2.1.1
-        version: 2.1.1
       validator:
         specifier: ^13.15.35
         version: 13.15.35
+    devDependencies:
+      '@types/express':
+        specifier: ^4.17.25
+        version: 4.17.25
 
 packages:
 
@@ -71,18 +75,9 @@ packages:
   '@upstash/redis@1.38.0':
     resolution: {integrity: sha512-wu+dZBptlLy0+MCUEoHmzrY/TnmgDey3+c7EbIGwrLqAvkP8yi5MWZHYGIFtAygmL4Bkz2TdFu+eU0vFPncIcg==}
 
-  accepts@1.3.8:
-    resolution: {integrity: sha512-PYAthTa2m2VKxuvSD3DPC/Gy+U+sOA1LAuT8mkmRuvw+NACSaeXEQ+NHcVF7rONl6qcaxV3Uuemwawk+7+SJLw==}
-    engines: {node: '>= 0.6'}
-
   accepts@2.0.0:
     resolution: {integrity: sha512-5cvg6CtKwfgdmVqY1WIiXKc3Q1bkRqGLi+2W/6ao+6Y7gu/RCwRuAhGEzh5B4KlszSuTLgZYuqFqo5bImjNKng==}
     engines: {node: '>= 0.6'}
-
-  acorn@8.16.0:
-    resolution: {integrity: sha512-UVJyE9MttOsBQIDKw1skb9nAwQuR5wuGD3+82K6JgJlm/Y+KI92oNsMNGZCYdDsVtRHSak0pcV5Dno5+4jh9sw==}
-    engines: {node: '>=0.4.0'}
-    hasBin: true
 
   body-parser@2.2.2:
     resolution: {integrity: sha512-oP5VkATKlNwcgvxi0vM0p/D3n2C3EReYVX+DNYs5TjZFn/oQt2j+4sVJtSMr18pdRr8wjTcBl6LoV+FUwzPmNA==}
@@ -119,10 +114,6 @@ packages:
   cookie@0.7.2:
     resolution: {integrity: sha512-yki5XnKuf750l50uGTllt6kKILY4nQ1eNIQatoXEByZ5dWgnKqbnqmTrBE5B4N7lrMJKQ2ytWMiTO2o0v6Ew/w==}
     engines: {node: '>= 0.6'}
-
-  cookie@1.1.1:
-    resolution: {integrity: sha512-ei8Aos7ja0weRpFzJnEA9UHJ/7XQmqglbRwnf2ATjcB9Wq874VKH9kfjjirM6UhU2/E5fFYadylyhFldcqSidQ==}
-    engines: {node: '>=18'}
 
   cors@2.8.6:
     resolution: {integrity: sha512-tJtZBBHA6vjIAaF6EnIaq6laBBP9aq/Y3ouVJjEfoHbRBcHBAHYcMh/w8LDrk2PvIMMq8gmopa5D4V8RmbrxGw==}
@@ -181,25 +172,12 @@ packages:
     resolution: {integrity: sha512-hIS4idWWai69NezIdRt2xFVofaF4j+6INOpJlVOLDO8zXGpUVEVzIYk12UUi2JzjEzWL3IOAxcTubgz9Po0yXw==}
     engines: {node: '>= 18'}
 
-  fast-decode-uri-component@1.0.1:
-    resolution: {integrity: sha512-WKgKWg5eUxvRZGwW8FvfbaH7AXSh2cL+3j5fMGzUMCxWBJ3dV3a7Wz8y2f/uQ0e3B6WmodD3oS54jTQ9HVTIIg==}
-
-  fast-querystring@1.1.2:
-    resolution: {integrity: sha512-g6KuKWmFXc0fID8WWH0jit4g0AGBoJhCkJMb1RmbsSEUNvQ+ZC8D6CUZ+GtF8nMzSPXnhiePyyqqipzNNEnHjg==}
-
-  fast-zlib@2.0.1:
-    resolution: {integrity: sha512-DCoYgNagM2Bt1VIpXpdGnRx4LzqJeYG0oh6Nf/7cWo6elTXkFGMw9CrRCYYUIapYNrozYMoyDRflx9mgT3Awyw==}
-
   finalhandler@2.1.1:
     resolution: {integrity: sha512-S8KoZgRZN+a5rNwqTxlZZePjT/4cnm0ROV70LedRHZ0p8u9fRID0hJUZQpkKLzro8LfmC8sx23bY6tVNxv8pQA==}
     engines: {node: '>= 18.0.0'}
 
   forwarded@0.2.0:
     resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}
-    engines: {node: '>= 0.6'}
-
-  fresh@0.5.2:
-    resolution: {integrity: sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==}
     engines: {node: '>= 0.6'}
 
   fresh@2.0.0:
@@ -263,16 +241,8 @@ packages:
     resolution: {integrity: sha512-Snk314V5ayFLhp3fkUREub6WtjBfPdCPY1Ln8/8munuLuiYhsABgBVWsozAG+MWMbVEvcdcpbi9R7ww22l9Q3g==}
     engines: {node: '>=18'}
 
-  mime-db@1.52.0:
-    resolution: {integrity: sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==}
-    engines: {node: '>= 0.6'}
-
   mime-db@1.54.0:
     resolution: {integrity: sha512-aU5EJuIN2WDemCcAp2vFBfp/m4EAhWJnUNSSw0ixs7/kXbd6Pg64EmwJkNdFhB8aWt1sH2CTXrLxo/iAGV3oPQ==}
-    engines: {node: '>= 0.6'}
-
-  mime-types@2.1.35:
-    resolution: {integrity: sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==}
     engines: {node: '>= 0.6'}
 
   mime-types@3.0.2:
@@ -281,10 +251,6 @@ packages:
 
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
-
-  negotiator@0.6.3:
-    resolution: {integrity: sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==}
-    engines: {node: '>= 0.6'}
 
   negotiator@1.0.0:
     resolution: {integrity: sha512-8Ofs/AUQh8MaEcrlq5xOX0CQ9ypTF5dl78mjlMNfOK08fzpgTHQRQPBxcPlEtIw0yRpws+Zo/3r+5WRby7u3Gg==}
@@ -315,10 +281,6 @@ packages:
   proxy-addr@2.0.7:
     resolution: {integrity: sha512-llQsMLSUDUPT44jdrU/O37qlnifitDP+ZwrmmZcoSKyLKvtZxpyV0n2/bD/N4tBAAZ/gJEdZU7KMraoK1+XYAg==}
     engines: {node: '>= 0.10'}
-
-  qs@6.15.1:
-    resolution: {integrity: sha512-6YHEFRL9mfgcAvql/XhwTvf5jKcOiiupt2FiJxHkiX1z4j7WL8J/jRHYLluORvc1XxB5rV20KoeK00gVJamspg==}
-    engines: {node: '>=0.6'}
 
   qs@6.15.2:
     resolution: {integrity: sha512-Rzq0KEyX/w/tEybncDgdkZrJgVUsUMk3xjh3t5bv3S1HTAtg+uOYt72+ZfwiQwKdysThkTBdL/rTi6HDmX9Ddw==}
@@ -374,24 +336,9 @@ packages:
     resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==}
     engines: {node: '>=0.6'}
 
-  tseep@1.3.1:
-    resolution: {integrity: sha512-ZPtfk1tQnZVyr7BPtbJ93qaAh2lZuIOpTMjhrYa4XctT8xe7t4SAW9LIxrySDuYMsfNNayE51E/WNGrNVgVicQ==}
-
-  type-is@2.0.1:
-    resolution: {integrity: sha512-OZs6gsjF4vMp32qrCbiVSkrFmXtG/AZhY3t0iAMrMBiAZyV9oALtXO8hsrHbMXF9x6L3grlFuwW2oAz7cav+Gw==}
-    engines: {node: '>= 0.6'}
-
   type-is@2.1.0:
     resolution: {integrity: sha512-faYHw0anBbc/kWF3zFTEnxSFOAGUX9GFbOBthvDdLsIlEoWOFOtS0zgCiQYwIskL9iGXZL3kAXD8OoZ4GmMATA==}
     engines: {node: '>= 18'}
-
-  uWebSockets.js@https://codeload.github.com/uNetworking/uWebSockets.js/tar.gz/e0f56ebb4b349017f006e14d1cd29052f2a7121d:
-    resolution: {gitHosted: true, tarball: https://codeload.github.com/uNetworking/uWebSockets.js/tar.gz/e0f56ebb4b349017f006e14d1cd29052f2a7121d}
-    version: 20.67.0
-
-  ultimate-express@2.1.1:
-    resolution: {integrity: sha512-zHBKtYbfEBKSIZz6lqIoFePOY0wx2sYD2kgRq0l6/5GT9RM3xW9rqctuq9KVDcEImUMsQRw9x9ctwYxAcVn0yg==}
-    engines: {node: '>=22'}
 
   uncrypto@0.1.3:
     resolution: {integrity: sha512-Ql87qFHB3s/De2ClA9e0gsnS6zXG27SkTiSJwjCc9MebbfapQfuPzumMIUMi38ezPZVNFcHI9sUIepeQfw8J8Q==}
@@ -470,17 +417,10 @@ snapshots:
     dependencies:
       uncrypto: 0.1.3
 
-  accepts@1.3.8:
-    dependencies:
-      mime-types: 2.1.35
-      negotiator: 0.6.3
-
   accepts@2.0.0:
     dependencies:
       mime-types: 3.0.2
       negotiator: 1.0.0
-
-  acorn@8.16.0: {}
 
   body-parser@2.2.2:
     dependencies:
@@ -517,8 +457,6 @@ snapshots:
   cookie-signature@1.2.2: {}
 
   cookie@0.7.2: {}
-
-  cookie@1.1.1: {}
 
   cors@2.8.6:
     dependencies:
@@ -591,14 +529,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  fast-decode-uri-component@1.0.1: {}
-
-  fast-querystring@1.1.2:
-    dependencies:
-      fast-decode-uri-component: 1.0.1
-
-  fast-zlib@2.0.1: {}
-
   finalhandler@2.1.1:
     dependencies:
       debug: 4.4.3
@@ -611,8 +541,6 @@ snapshots:
       - supports-color
 
   forwarded@0.2.0: {}
-
-  fresh@0.5.2: {}
 
   fresh@2.0.0: {}
 
@@ -670,21 +598,13 @@ snapshots:
 
   merge-descriptors@2.0.0: {}
 
-  mime-db@1.52.0: {}
-
   mime-db@1.54.0: {}
-
-  mime-types@2.1.35:
-    dependencies:
-      mime-db: 1.52.0
 
   mime-types@3.0.2:
     dependencies:
       mime-db: 1.54.0
 
   ms@2.1.3: {}
-
-  negotiator@0.6.3: {}
 
   negotiator@1.0.0: {}
 
@@ -708,10 +628,6 @@ snapshots:
     dependencies:
       forwarded: 0.2.0
       ipaddr.js: 1.9.1
-
-  qs@6.15.1:
-    dependencies:
-      side-channel: 1.1.0
 
   qs@6.15.2:
     dependencies:
@@ -797,46 +713,11 @@ snapshots:
 
   toidentifier@1.0.1: {}
 
-  tseep@1.3.1: {}
-
-  type-is@2.0.1:
-    dependencies:
-      content-type: 1.0.5
-      media-typer: 1.1.0
-      mime-types: 3.0.2
-
   type-is@2.1.0:
     dependencies:
       content-type: 2.0.0
       media-typer: 1.1.0
       mime-types: 3.0.2
-
-  uWebSockets.js@https://codeload.github.com/uNetworking/uWebSockets.js/tar.gz/e0f56ebb4b349017f006e14d1cd29052f2a7121d: {}
-
-  ultimate-express@2.1.1:
-    dependencies:
-      '@types/express': 4.17.25
-      accepts: 1.3.8
-      acorn: 8.16.0
-      bytes: 3.1.2
-      content-disposition: 1.1.0
-      cookie: 1.1.1
-      cookie-signature: 1.2.2
-      encodeurl: 2.0.0
-      etag: 1.8.1
-      fast-querystring: 1.1.2
-      fast-zlib: 2.0.1
-      fresh: 0.5.2
-      mime-types: 2.1.35
-      ms: 2.1.3
-      proxy-addr: 2.0.7
-      qs: 6.15.1
-      range-parser: 1.2.1
-      statuses: 2.0.2
-      tseep: 1.3.1
-      type-is: 2.0.1
-      uWebSockets.js: https://codeload.github.com/uNetworking/uWebSockets.js/tar.gz/e0f56ebb4b349017f006e14d1cd29052f2a7121d
-      vary: 1.1.2
 
   uncrypto@0.1.3: {}
 
