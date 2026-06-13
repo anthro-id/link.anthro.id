@@ -109,38 +109,24 @@ app.post("/", ratelimiter({ ...ratelimitConfig, identifier: "post", limit: 15, w
   };
 
   try {
-    let newIdentifier;
-
-    let retries = 0;
-    while (retries < 3) {
-      newIdentifier = generateUniqueCode();
-
-      const isExists = await redis.hexists(cacheKey, newIdentifier);
-      if (isExists !== 0) {
-        retries++;
-        continue;
-      };
-
-      break;
-    };
-
-    if (!newIdentifier || retries >= 3) {
+    const identifier = await generateUniqueCode();
+    if (!identifier) {
       return res.status(500).send("The identifier resource generation is exhausted, try again later.");
     };
 
     const transactions = redis.multi();
 
     transactions.hset(cacheKey, {
-      [newIdentifier]: rawUrl
+      [identifier]: rawUrl
     });
 
     if (ttl !== null) {
-      transactions.hexpire(cacheKey, newIdentifier, ttl);
+      transactions.hexpire(cacheKey, identifier, ttl);
     };
 
     await transactions.exec();
 
-    return res.status(201).send("https://link.anthro.id/" + newIdentifier);
+    return res.status(201).send("https://link.anthro.id/" + identifier);
   } catch (error) {
     console.error(error);
     return res.status(500).send("An error occurred when preparing the link shortener.");
