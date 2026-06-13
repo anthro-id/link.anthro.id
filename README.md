@@ -1,5 +1,5 @@
 # link.anthro.id
-A self-hostable link shortener built for internal use, built with [µExpress](https://npm.im/ultimate-express) (Express.js with uWebsockets on-top) and Redis.
+A self-hostable link shortener built for internal use, built with [Express.js](https://expressjs.com) and [Redis](https://redis.io).
 
 ## Engines
 We use the [latest version](https://nodejs.org/en/about/previous-releases#looking-for-the-latest-release-of-a-version-branch) (Active LTS) of [Node.js](https://nodejs.org). The code is built on [ECMAScript](https://nodejs.org/api/esm.html).
