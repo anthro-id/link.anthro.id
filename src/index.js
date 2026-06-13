@@ -9,7 +9,7 @@ if (isNaN(PORT)) {
 };
 
 import pkg from "../package.json" with { type: "json" };
-import Express from "ultimate-express";
+import Express from "express";
 import ratelimiter from "express-rate-limit";
 import ms from "ms";
 import cors from "cors";
